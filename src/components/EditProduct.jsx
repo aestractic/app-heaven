@@ -11,6 +11,7 @@ const EditProduct = () => {
         ml: '',
         imagen: null,
     });
+    const [error, setError] = useState(null);
     const navigate = useNavigate();
     const { id } = useParams();
 
@@ -21,19 +22,25 @@ const EditProduct = () => {
     const fetchProduct = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get(`http://localhost:5000/api/products/${id}`, {
+            const response = await axios.get(`https://api-heaven.onrender.com/api/products/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
             setProduct(response.data.data);
         } catch (error) {
-            console.error(error);
+            setError(error.message || 'Error fetching product');
         }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!product.products || !product.name || !product.price || !product.type || !product.ml) {
+            setError('Please fill in all fields.');
+            return;
+        }
+
         try {
             const token = localStorage.getItem('token');
             const formData = new FormData();
@@ -46,14 +53,14 @@ const EditProduct = () => {
                 formData.append('imagen', product.imagen);
             }
 
-            await axios.put(`http://localhost:5000/api/products/${id}`, formData, {
+            await axios.put(`https://api-heaven.onrender.com/api/products/${id}`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
             navigate('/');
         } catch (error) {
-            console.error(error);
+            setError(error.message || 'Error updating product');
         }
     };
 
@@ -65,72 +72,90 @@ const EditProduct = () => {
         setProduct({ ...product, imagen: e.target.files[0] });
     };
 
-
     return (
-        <div>
-            <h1>Editar Producto</h1>
-            <form onSubmit={handleSubmit}>
+        <div className="bg-white p-8 rounded-lg shadow-md max-w-md mx-auto">
+            <h1 className="text-2xl font-semibold text-gray-900 mb-4">Editar Producto</h1>
+            {error && <p className="text-red-500">{error}</p>}
+
+            <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label htmlFor="products">Producto:</label>
+                    <label htmlFor="products" className="block text-gray-700">Producto:</label>
                     <input
                         type="text"
                         id="products"
                         name="products"
                         value={product.products}
                         onChange={handleChange}
+                        className="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
                     />
                 </div>
                 <div>
-                    <label htmlFor="name">Nombre:</label>
+                    <label htmlFor="name" className="block text-gray-700">Nombre:</label>
                     <input
                         type="text"
                         id="name"
                         name="name"
                         value={product.name}
                         onChange={handleChange}
+                        className="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
                     />
                 </div>
                 <div>
-                    <label htmlFor="price">Precio:</label>
+                    <label htmlFor="price" className="block text-gray-700">Precio:</label>
                     <input
                         type="number"
                         id="price"
                         name="price"
                         value={product.price}
                         onChange={handleChange}
+                        className="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
                     />
                 </div>
                 <div>
-                    <label htmlFor="type">Tipo:</label>
+                    <label htmlFor="type" className="block text-gray-700">Tipo:</label>
                     <input
                         type="text"
                         id="type"
                         name="type"
                         value={product.type}
                         onChange={handleChange}
+                        className="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
                     />
                 </div>
                 <div>
-                    <label htmlFor="ml">ml:</label>
+                    <label htmlFor="ml" className="block text-gray-700">ml:</label>
                     <input
                         type="number"
                         id="ml"
                         name="ml"
                         value={product.ml}
                         onChange={handleChange}
+                        className="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
                     />
                 </div>
                 <div>
-                    <label htmlFor="imagen">Imagen:</label>
+                    <label htmlFor="imagen" className="block text-gray-700">Imagen:</label>
                     <input
                         type="file"
                         id="imagen"
                         name="imagen"
                         onChange={handleFileChange}
+                        className="w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
                     />
+                    {product.imagen && (
+                        <div className="mt-2">
+                            <img
+                                src={`https://api-heaven.onrender.com${product.imagen}`}
+                                alt={product.name}
+                                className="h-auto max-h-24 w-full object-contain"
+                            />
+                        </div>
+                    )}
                 </div>
 
-                <button type="submit">Actualizar Producto</button>
+                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    Actualizar Producto
+                </button>
             </form>
         </div>
     );

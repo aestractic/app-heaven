@@ -37,7 +37,7 @@ const CreateProduct = () => {
 
             // Include token in Authorization header if it exists
             if (token) {
-                await axios.post('http://localhost:5000/api/products', formData, {
+                await axios.post('https://api-heaven.onrender.com/api/products', formData, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -53,34 +53,36 @@ const CreateProduct = () => {
     };
 
     return (
-        <div>
-            <h1>Crear Producto</h1>
-            <form onSubmit={handleSubmit}>
+        <div className="bg-white p-8 rounded-lg shadow-md max-w-md mx-auto">
+            <h1 className="text-2xl font-semibold text-gray-900 mb-4">Crear Producto</h1>
+            <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                     <label>Producto:</label>
-                    <input type="text" name="products" value={product.products} onChange={handleChange} />
+                    <input type="text" name="products" value={product.products} onChange={handleChange}/>
                 </div>
                 <div>
                     <label>Nombre:</label>
-                    <input type="text" name="name" value={product.name} onChange={handleChange} />
+                    <input type="text" name="name" value={product.name} onChange={handleChange}/>
                 </div>
                 <div>
                     <label>Precio:</label>
-                    <input type="number" name="price" value={product.price} onChange={handleChange} />
+                    <input type="number" name="price" value={product.price} onChange={handleChange}/>
                 </div>
                 <div>
                     <label>Tipo:</label>
-                    <input type="text" name="type" value={product.type} onChange={handleChange} />
+                    <input type="text" name="type" value={product.type} onChange={handleChange}/>
                 </div>
                 <div>
                     <label>ml:</label>
-                    <input type="number" name="ml" value={product.ml} onChange={handleChange} />
+                    <input type="number" name="ml" value={product.ml} onChange={handleChange}/>
                 </div>
                 <div>
                     <label>Imagen:</label>
-                    <input type="file" name="imagen" onChange={handleFileChange} />
+                    <input type="file" name="imagen" onChange={handleFileChange}/>
                 </div>
-                <button type="submit">Crear Producto</button>
+                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                    Crear Producto
+                </button>
             </form>
         </div>
     );

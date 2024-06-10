@@ -11,7 +11,7 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5000/api/users', { name, email, password });
+            await axios.post('https://api-heaven.onrender.com/api/users', { name, email, password });
             navigate('/login');
         } catch (error) {
             console.error(error);
@@ -19,23 +19,60 @@ const Register = () => {
     };
 
     return (
-        <div>
-            <h1>Registrarse</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Nombre:</label>
-                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+        <div className="login_container">
+            <div className="login_form_container">
+                <div className="left">
+                    <img className="logo" src="/heaven.png" alt="Logo" />
+                    <h1 className="text-4xl text-[#E9D3A3] mt-0 mb-5 font-bold">Registrarse</h1>
+
+                    <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+                        <div className="rounded-md shadow-sm -space-y-px">
+                            <div className="input_container">
+                                <input
+                                    id="name"
+                                    name="name"
+                                    type="text"
+                                    autoComplete="name"
+                                    required
+                                    className="input"
+                                    placeholder="Nombre"
+                                    value={name}
+                                    onChange={(e) => setName(e.target.value)}
+                                />
+
+                                <input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    autoComplete="email"
+                                    required
+                                    className="input"
+                                    placeholder="Email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                />
+
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    autoComplete="current-password"
+                                    required
+                                    className="input"
+                                    placeholder="Contraseña"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                        <div className="button_container">
+                            <button type="submit" className="green_btn mx-auto">
+                                Registrarse
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                <div>
-                    <label>Email:</label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                </div>
-                <div>
-                    <label>Contraseña:</label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                </div>
-                <button type="submit">Registrarse</button>
-            </form>
+            </div>
         </div>
     );
 };
