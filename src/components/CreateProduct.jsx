@@ -3,9 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const CreateProduct = () => {
-
     const token = localStorage.getItem('token');
-
     const [product, setProduct] = useState({
         products: '',
         name: '',
@@ -34,8 +32,6 @@ const CreateProduct = () => {
             formData.append('type', product.type);
             formData.append('ml', product.ml);
             formData.append('imagen', product.imagen);
-
-            // Include token in Authorization header if it exists
             if (token) {
                 await axios.post('https://api-heaven.onrender.com/api/products', formData, {
                     headers: {
@@ -45,7 +41,6 @@ const CreateProduct = () => {
             } else {
                 console.warn('No token found in local storage. Authorization header omitted.');
             }
-
             navigate('/');
         } catch (error) {
             console.error(error);
@@ -53,36 +48,90 @@ const CreateProduct = () => {
     };
 
     return (
-        <div className="bg-white p-8 rounded-lg shadow-md max-w-md mx-auto">
-            <h1 className="text-2xl font-semibold text-gray-900 mb-4">Crear Producto</h1>
+        <div className="bg-white p-8 rounded-lg shadow-md max-w-md mx-auto my-10">
+            <h1 className="text-2xl font-semibold text-gray-900 mb-4 text-center">Crear Producto</h1>
+
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label>Producto:</label>
-                    <input type="text" name="products" value={product.products} onChange={handleChange}/>
+                    <label htmlFor="products" className="block text-gray-700">Producto:</label>
+                    <input
+                        type="text"
+                        id="products"
+                        name="products"
+                        value={product.products}
+                        onChange={handleChange}
+                        className="w-full border rounded-md p-2 focus:outline-none focus:ring focus:border-blue-300"
+                    />
                 </div>
                 <div>
-                    <label>Nombre:</label>
-                    <input type="text" name="name" value={product.name} onChange={handleChange}/>
+                    <label htmlFor="name" className="block text-gray-700">Nombre:</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={product.name}
+                        onChange={handleChange}
+                        className="w-full border rounded-md p-2 focus:outline-none focus:ring focus:border-blue-300"
+                    />
                 </div>
                 <div>
-                    <label>Precio:</label>
-                    <input type="number" name="price" value={product.price} onChange={handleChange}/>
+                    <label htmlFor="price" className="block text-gray-700">Precio:</label>
+                    <input
+                        type="number"
+                        id="price"
+                        name="price"
+                        value={product.price}
+                        onChange={handleChange}
+                        className="w-full border rounded-md p-2 focus:outline-none focus:ring focus:border-blue-300"
+                    />
                 </div>
                 <div>
-                    <label>Tipo:</label>
-                    <input type="text" name="type" value={product.type} onChange={handleChange}/>
+                    <label htmlFor="type" className="block text-gray-700">Tipo:</label>
+                    <input
+                        type="text"
+                        id="type"
+                        name="type"
+                        value={product.type}
+                        onChange={handleChange}
+                        className="w-full border rounded-md p-2 focus:outline-none focus:ring focus:border-blue-300"
+                    />
                 </div>
                 <div>
-                    <label>ml:</label>
-                    <input type="number" name="ml" value={product.ml} onChange={handleChange}/>
+                    <label htmlFor="ml" className="block text-gray-700">ml:</label>
+                    <input
+                        type="number"
+                        id="ml"
+                        name="ml"
+                        value={product.ml}
+                        onChange={handleChange}
+                        className="w-full border rounded-md p-2 focus:outline-none focus:ring focus:border-blue-300"
+                    />
                 </div>
                 <div>
-                    <label>Imagen:</label>
-                    <input type="file" name="imagen" onChange={handleFileChange}/>
+                    <label htmlFor="imagen" className="block text-gray-700">Imagen:</label>
+                    <input
+                        type="file"
+                        id="imagen"
+                        name="imagen"
+                        onChange={handleFileChange}
+                        className="w-full border rounded-md p-2 focus:outline-none focus:ring focus:border-blue-300"
+                    />
+                    {product.imagen && (
+                        <div className="mt-2 flex justify-center">
+                            <img
+                                src={URL.createObjectURL(product.imagen)}
+                                alt={product.name}
+                                className="h-auto max-h-24 w-full object-contain"
+                            />
+                        </div>
+                    )}
                 </div>
-                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
-                    Crear Producto
-                </button>
+
+                <div className="flex justify-center">
+                    <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Crear Producto
+                    </button>
+                </div>
             </form>
         </div>
     );

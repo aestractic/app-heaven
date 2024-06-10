@@ -21,8 +21,9 @@ const EditProduct = () => {
 
     const fetchProduct = async () => {
         try {
+            const apiUrl = import.meta.env.VITE_API_URL;
             const token = localStorage.getItem('token');
-            const response = await axios.get(`https://api-heaven.onrender.com/api/products/${id}`, {
+            const response = await axios.get(`${apiUrl}/api/products/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -42,6 +43,8 @@ const EditProduct = () => {
         }
 
         try {
+
+            const apiUrl = import.meta.env.VITE_API_URL;
             const token = localStorage.getItem('token');
             const formData = new FormData();
             formData.append('products', product.products);
@@ -53,7 +56,7 @@ const EditProduct = () => {
                 formData.append('imagen', product.imagen);
             }
 
-            await axios.put(`https://api-heaven.onrender.com/api/products/${id}`, formData, {
+            await axios.put(`${apiUrl}/api/products/${id}`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

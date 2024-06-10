@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import config from './config.js'
 
 const ProductList = () => {
     const [products, setProducts] = useState([]);
@@ -12,7 +13,8 @@ const ProductList = () => {
 
     const fetchProducts = async () => {
         try {
-            const response = await axios.get('https://api-heaven.onrender.com/api/products', {
+            const apiUrl = import.meta.env.VITE_API_URL;
+            const response = await axios.get(`${apiUrl}/api/products`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setProducts(response.data.data);
@@ -23,7 +25,8 @@ const ProductList = () => {
 
     const deleteProduct = async (id) => {
         try {
-            await axios.delete(`https://api-heaven.onrender.com/api/products/${id}`, {
+            const apiUrl = import.meta.env.VITE_API_URL;
+            await axios.delete(`${apiUrl}/api/products/${id}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             fetchProducts();

@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom'; // Import useLocation
+import { BrowserRouter, Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom';
+import React from 'react';
 import Navbar from './components/Navbar';
 import ProductList from './components/ProductList';
 import CreateProduct from './components/CreateProduct';

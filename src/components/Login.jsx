@@ -10,7 +10,8 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://api-heaven.onrender.com/api/login', { email, password });
+            const apiUrl = import.meta.env.VITE_API_URL;
+            const response = await axios.post(`${apiUrl}/api/login`, { email, password });
             localStorage.setItem('token', response.data.data.token);
             navigate('/');
         } catch (error) {
